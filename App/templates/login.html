@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block main %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
 <h4>My Login Page</h4>
 <p>This page prompts users to enter their login credentials.</p>
 
@@ -11,20 +15,20 @@
     <a href="{{ url_for('logout') }}"><button>Logout</button></a>
 {% else %}
     <form action="{{ url_for('login') }}" method="post">
-        {{ form.hidden_tag() }}  <!-- CSRF token -->
+        {{ form.hidden_tag() }}
 
         <label for="username">{{ form.username.label }}</label>
-        {{ form.username }}
-        {% if form.username.errors %}
-            <p class="error">{{ form.username.errors[0] }}</p>
-        {% endif %}
+        {{ form.username(id="username") }}
+        {% for error in form.username.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
         <br>
 
         <label for="password">{{ form.password.label }}</label>
-        {{ form.password }}
-        {% if form.password.errors %}
-            <p class="error">{{ form.password.errors[0] }}</p>
-        {% endif %}
+        {{ form.password(id="password") }}
+        {% for error in form.password.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
         <br>
 
         {{ form.submit }}
