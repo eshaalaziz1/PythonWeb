@@ -1,0 +1,18 @@
+<h1><b>My Flask App</b></h1>
+<h3>Subheader: Subtitle of the website</h3>
+
+<hr>
+
+<ul>
+    <li><a href="{{ url_for('index') }}">My home page</a></li>
+    <li><a href="{{ url_for('about') }}">My about page</a></li>
+    <li><a href="{{ url_for('form') }}">My form page</a></li>
+    <li><a href="{{ url_for('rectangle') }}">My rectangle page</a></li>
+    <li><a href="{{ url_for('login') }}">My login page</a></li>
+
+
+
+</ul>
+
+{% block main %}
+{% endblock %}

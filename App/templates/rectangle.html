@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h4>My Rectangle Page</h4>
+<p>You can enter values for length and width to calculate there area and perimeter</p>
+
+<h2>Rectangle Form</h2>
+<form action="{{ url_for('rectangle') }}" method="POST">
+    <label for="length">Length:</label>
+    <input type="text" id="length" name="length" required><br>
+
+    <label for="width">Width:</label>
+    <input type="text" id="width" name="width" required><br>
+
+    <button type="submit" name="action" value="area">Calculate Area</button>
+    <button type="submit" name="action" value="perimeter">Calculate Perimeter</button>
+</form>
+
+{% if result is not none %}
+    <p>Result: {{ result }}</p>
+{% endif %}
+
+{% endblock %}

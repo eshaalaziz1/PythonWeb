@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h4>My Login Page</h4>
+<p>This page prompts users to enter their login credentials.</p>
+
+<h2>Login Form</h2>
+
+{% if username %}
+    <p>Welcome, {{ username }}! You are logged in.</p>
+    <a href="{{ url_for('logout') }}"><button>Logout</button></a>
+{% else %}
+    <form action="{{ url_for('login') }}" method="post">
+        {{ form.hidden_tag() }}  <!-- CSRF token -->
+
+        <label for="username">{{ form.username.label }}</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+            <p class="error">{{ form.username.errors[0] }}</p>
+        {% endif %}
+        <br>
+
+        <label for="password">{{ form.password.label }}</label>
+        {{ form.password }}
+        {% if form.password.errors %}
+            <p class="error">{{ form.password.errors[0] }}</p>
+        {% endif %}
+        <br>
+
+        {{ form.submit }}
+    </form>
+{% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <p class="{{ category }}">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% endblock %}

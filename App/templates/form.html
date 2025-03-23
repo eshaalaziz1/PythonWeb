@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h4>My form page</h4>
+<p>This page contains a form you need to fill in</p>
+
+<form action="{{ url_for('form') }}" method="POST">
+    {{ form.csrf_token }}
+    {{ form.task_name.label }}
+    {{ form.task_name }}
+    {{ form.submit }}
+</form>
+
+{% if text %}
+    <p>{{ text }}</p>
+{% endif %}
+{% endblock %}
