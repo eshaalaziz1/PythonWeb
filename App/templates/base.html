@@ -1,18 +1,29 @@
-<h1><b>My Flask App</b></h1>
-<h3>Subheader: Subtitle of the website</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Flask App</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
 
-<hr>
+    <h1><b>My Flask App</b></h1>
+    <h3>Subheader: Subtitle of the website</h3>
 
-<ul>
-    <li><a href="{{ url_for('index') }}">My home page</a></li>
-    <li><a href="{{ url_for('about') }}">My about page</a></li>
-    <li><a href="{{ url_for('form') }}">My form page</a></li>
-    <li><a href="{{ url_for('rectangle') }}">My rectangle page</a></li>
-    <li><a href="{{ url_for('login') }}">My login page</a></li>
+    <hr>
 
+    <ul>
+        <li><a href="{{ url_for('index') }}">My home page</a></li>
+        <li><a href="{{ url_for('about') }}">My about page</a></li>
+        <li><a href="{{ url_for('form') }}">My form page</a></li>
+        <li><a href="{{ url_for('rectangle') }}">My rectangle page</a></li>
+        <li><a href="{{ url_for('login') }}">My login page</a></li>
+        <li><a href="{{ url_for('students') }}">My student page</a></li>
 
+    </ul>
 
-</ul>
+    {% block main %}
+    {% endblock %}
 
-{% block main %}
-{% endblock %}
+</body>
+</html>

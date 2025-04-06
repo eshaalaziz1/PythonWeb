@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+<div class="container">
+   <h2>Student Registration</h2>
+
+
+   <!-- Student Form -->
+   <form action="/students" method="post">
+       {{ form.hidden_tag() }}
+
+
+       <table>
+           <tr>
+               <td><label>{{ form.idnumber.label }}</label></td>
+               <td>{{ form.idnumber() }}</td>
+           </tr>
+           <tr>
+               <td><label>{{ form.name.label }}</label></td>
+               <td>{{ form.name() }}</td>
+           </tr>
+           <tr>
+               <td><label>{{ form.grade_level.label }}</label></td>
+               <td>{{ form.grade_level() }}</td>
+           </tr>
+           <tr>
+               <td><label>{{ form.email_address.label }}</label></td>
+               <td>{{ form.email_address() }}</td>
+           </tr>
+           <tr>
+               <td colspan="2" align="center">{{ form.submit() }}</td>
+           </tr>
+       </table>
+   </form>
+
+
+   <h3>Registered Students</h3>
+   <table border="1">
+       <tr>
+           <th>ID Number</th>
+           <th>Name</th>
+           <th>Grade Level</th>
+           <th>Email Address</th>
+       </tr>
+       {% for student in students %}
+       <tr>
+           <td>{{ student.idnumber }}</td>
+           <td>{{ student.name }}</td>
+           <td>{{ student.grade_level }}</td>
+           <td>{{ student.email_address }}</td>
+       </tr>
+       {% endfor %}
+   </table>
+</div>
+{% endblock %}

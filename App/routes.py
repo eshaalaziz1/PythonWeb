@@ -1,6 +1,12 @@
 from flask import render_template, request, redirect, flash, url_for, session
+from flask_wtf import FlaskForm
+from werkzeug.routing import ValidationError
+from wtforms.fields.simple import StringField
+
 from App.forms import AddTaskForms, LoginForm
-from app import app
+from app import app, db
+from models import Student
+import forms
 
 
 @app.route('/')
@@ -63,3 +69,63 @@ def logout():
     session.pop('username', None)  # Remove username from session
     flash("You have been logged out.", "info")
     return redirect(url_for('login'))
+
+
+
+
+@app.route('/students', methods=['GET', 'POST'])
+def students():
+   form = forms.StudentForm()
+   students = Student.query.all()  # Retrieve all students
+
+
+   if form.validate_on_submit():
+       # Get form data
+       idnumber = form.idnumber.data
+       name = form.name.data
+       grade_level = form.grade_level.data
+       email_address = form.email_address.data
+
+
+       # Check if email already exists
+       existing_student = Student.query.filter_by(email_address=email_address).first()
+       if existing_student:
+           flash("Email already registered!", "danger")
+       else:
+           new_student = Student(idnumber=idnumber, name=name, grade_level=grade_level, email_address=email_address)
+           db.session.add(new_student)
+           db.session.commit()
+           flash("Student registered successfully!", "success")
+           return redirect(url_for('students'))  # Prevent form resubmission
+
+
+   return render_template('students.html', form=form, students=students)
+@app.route('/', methods=['GET', 'POST'])
+def register():
+    form = forms.StudentForm()
+    students = Student.query.all()
+
+    if form.validate_on_submit():
+        new_student = Student(
+            idnumber=form.idnumber.data,
+            name=form.name.data,
+            grade_level=form.grade_level.data,
+            email_address=form.email_address.data
+        )
+        db.session.add(new_student)
+        db.session.commit()
+        return redirect(url_for('register'))  # Refresh the page
+
+    return render_template('register.html', form=form, students=students)
+
+import re
+from email.utils import parseaddr
+# Custom email validator
+def validate_email(form, field):
+    email = field.data
+    if parseaddr(email)[1] == '':  # If the email is invalid
+        raise ValidationError('Invalid email address')
+
+# Use it in the form
+class MyForm(FlaskForm):
+    email = StringField('Email', validators=[validate_email])

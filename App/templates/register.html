@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration</title>
+</head>
+<body>
+    <h1>Student Registration</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.idnumber.label }} {{ form.idnumber() }}</p>
+        <p>{{ form.name.label }} {{ form.name() }}</p>
+        <p>{{ form.grade_level.label }} {{ form.grade_level() }}</p>
+        <p>{{ form.email_address.label }} {{ form.email_address() }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <h2>Registered Students</h2>
+    <table border="1">
+        <tr>
+            <th>ID Number</th>
+            <th>Name</th>
+            <th>Grade Level</th>
+            <th>Email Address</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.idnumber }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.grade_level }}</td>
+            <td>{{ student.email_address }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
