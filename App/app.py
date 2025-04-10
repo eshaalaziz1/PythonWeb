@@ -12,11 +12,14 @@ db = SQLAlchemy(app)
 from routes import *
 
 
-# create a database table
+
+
 with app.app_context():
    db.create_all()
 
 
+
+
 # this is the part the runs the server and the app
 if __name__ == '__main__':
-   app.run(debug=True)
+   app.run(debug=True, port=5001)

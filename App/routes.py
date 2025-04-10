@@ -1,3 +1,5 @@
+import pandas as pd
+
 from flask import render_template, request, redirect, flash, url_for, session
 from flask_wtf import FlaskForm
 from werkzeug.routing import ValidationError
@@ -129,3 +131,18 @@ def validate_email(form, field):
 # Use it in the form
 class MyForm(FlaskForm):
     email = StringField('Email', validators=[validate_email])
+
+
+
+@app.route('/dashboard')
+def dashboard():
+    df = pd.read_csv('static/schools.csv')
+
+    top_roles = df['Role Modified'].value_counts().nlargest(10)
+    conference_counts = df['Conference'].value_counts()
+    country_counts = df['Country'].value_counts()
+
+    return render_template('dashboard.html',
+                           top_roles=top_roles,
+                           conference_counts=conference_counts,
+                           country_counts=country_counts)

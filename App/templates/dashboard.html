@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container">
+   <h2>Attendee Dashboard</h2>
+
+   <h3>Top 10 Roles</h3>
+   <canvas id="barChart"></canvas>
+
+   <h3>Conference Participation</h3>
+   <canvas id="pieChart"></canvas>
+
+   <h3>Attendees by Country</h3>
+   <canvas id="lineChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+   const barLabels = {{ top_roles.index.tolist() | tojson | safe }};
+   const barData = {{ top_roles.values.tolist() | tojson | safe }};
+
+   const pieLabels = {{ conference_counts.index.tolist() | tojson | safe }};
+   const pieData = {{ conference_counts.values.tolist() | tojson | safe }};
+
+   const lineLabels = {{ country_counts.index.tolist() | tojson | safe }};
+   const lineData = {{ country_counts.values.tolist() | tojson | safe }};
+
+   new Chart(document.getElementById('barChart').getContext('2d'), {
+       type: 'bar',
+       data: {
+           labels: barLabels,
+           datasets: [{
+               label: 'Number of Attendees',
+               data: barData,
+               backgroundColor: 'rgba(54, 162, 235, 0.6)'
+           }]
+       }
+   });
+
+   new Chart(document.getElementById('pieChart').getContext('2d'), {
+       type: 'pie',
+       data: {
+           labels: pieLabels,
+           datasets: [{
+               data: pieData,
+               backgroundColor: ['#007bff', '#ffc107', '#28a745', '#dc3545', '#6c757d']
+           }]
+       }
+   });
+
+   new Chart(document.getElementById('lineChart').getContext('2d'), {
+       type: 'line',
+       data: {
+           labels: lineLabels,
+           datasets: [{
+               label: 'Attendees per Country',
+               data: lineData,
+               borderColor: '#007bff',
+               fill: false
+           }]
+       }
+   });
+</script>
+{% endblock %}

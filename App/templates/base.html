@@ -1,29 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>My Flask App</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+<h1><b>My To Do List</b></h1>
+<h3>Subheader: Subtitle of the website</h3>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
+<hr>
+<ul>
+ <li><a href="{{ url_for('index') }}">Home Page</a></li>
+ <li><a href="{{ url_for('about') }}">About Page</a></li>
+ <li><a href="{{ url_for('form') }}">Form Page</a></li>
+ <li><a href="{{ url_for('rectangle') }}">Rectangle Page</a></li>
+ <li><a href="{{ url_for('students') }}">Students Page</a></li>
+ <li><a href="{{ url_for('dashboard') }}">My Dashboard</a></li>
 
-    <h1><b>My Flask App</b></h1>
-    <h3>Subheader: Subtitle of the website</h3>
+</ul>
 
-    <hr>
 
-    <ul>
-        <li><a href="{{ url_for('index') }}">My home page</a></li>
-        <li><a href="{{ url_for('about') }}">My about page</a></li>
-        <li><a href="{{ url_for('form') }}">My form page</a></li>
-        <li><a href="{{ url_for('rectangle') }}">My rectangle page</a></li>
-        <li><a href="{{ url_for('login') }}">My login page</a></li>
-        <li><a href="{{ url_for('students') }}">My student page</a></li>
-
-    </ul>
-
-    {% block main %}
-    {% endblock %}
-
-</body>
-</html>
+{% block main %}
+{% endblock %}
