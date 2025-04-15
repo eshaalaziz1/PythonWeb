@@ -142,7 +142,15 @@ def dashboard():
     conference_counts = df['Conference'].value_counts()
     country_counts = df['Country'].value_counts()
 
-    return render_template('dashboard.html',
+    locations = df.apply(lambda row: {
+        "name": f"{row['first_name']} {row['last_name']}",
+        "school": row["Your school"],
+        "lat": row["Lat"],
+        "lng": row["Long"]
+    }, axis=1).tolist()
+
+    return render_template("dashboard.html",
                            top_roles=top_roles,
                            conference_counts=conference_counts,
-                           country_counts=country_counts)
+                           country_counts=country_counts,
+                           locations=locations)

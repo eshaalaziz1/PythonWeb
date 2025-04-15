@@ -12,19 +12,28 @@
 
    <h3>Attendees by Country</h3>
    <canvas id="lineChart"></canvas>
+
+   <h3>Global Attendee Map (3D)</h3>
+   <div id="globeViz" style="width: 100%; height: 600px;"></div>
 </div>
 
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Globe.gl -->
+<script src="https://unpkg.com/three@0.121.1/build/three.min.js"></script>
+<script src="https://unpkg.com/three-globe"></script>
+<script src="https://unpkg.com/globe.gl"></script>
+
 <script>
    const barLabels = {{ top_roles.index.tolist() | tojson | safe }};
    const barData = {{ top_roles.values.tolist() | tojson | safe }};
-
    const pieLabels = {{ conference_counts.index.tolist() | tojson | safe }};
    const pieData = {{ conference_counts.values.tolist() | tojson | safe }};
-
    const lineLabels = {{ country_counts.index.tolist() | tojson | safe }};
    const lineData = {{ country_counts.values.tolist() | tojson | safe }};
 
+   // Charts
    new Chart(document.getElementById('barChart').getContext('2d'), {
        type: 'bar',
        data: {
@@ -53,12 +62,43 @@
        data: {
            labels: lineLabels,
            datasets: [{
-               label: 'Attendees per Country',
+               label: 'Number of Attendees',
                data: lineData,
-               borderColor: '#007bff',
-               fill: false
+               fill: false,
+               borderColor: 'rgba(75, 192, 192, 1)',
+               tension: 0.1
            }]
        }
+   });
+
+   // Globe
+   const locations = {{ locations | tojson | safe }};
+
+   const globeContainer = document.getElementById('globeViz');
+   const world = Globe()(globeContainer)
+       .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+       .backgroundColor('#000')
+       .pointsData(locations)
+       .pointLat(d => d.lat)
+       .pointLng(d => d.lng)
+       .pointAltitude(0.01)
+       .pointColor(() => '#ffcc00');
+
+   // Adjust globe size
+   world.width(globeContainer.offsetWidth);
+   world.height(globeContainer.offsetHeight);
+
+   // Adjust camera to better center globe
+   world.camera().position.set(0, 0, 300);
+
+   // Optional controls
+   world.controls().autoRotate = true;
+   world.controls().autoRotateSpeed = 0.5;
+
+   // Recenter on resize
+   window.addEventListener('resize', () => {
+       world.width(globeContainer.offsetWidth);
+       world.height(globeContainer.offsetHeight);
    });
 </script>
 {% endblock %}
